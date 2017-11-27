@@ -11,8 +11,8 @@ public class NewBehaviourScript : MonoBehaviour {
 	static GameObject[,] grid;
 	Color[,] colors;
 	Color cube1Color,cube2Color;
-	public Text text1; 
-	public Text text2;
+	public Text text1, text2;
+	Color cubeColor,leftCubeColor,rightCubeColor,upperCubeColor,lowerCubeColor;
 
 	// Use this for initialization
 	void Start () {
@@ -28,19 +28,34 @@ public class NewBehaviourScript : MonoBehaviour {
 		moveStarterCubesY = 0;
 
 		Color[] colors = {Color.black, Color.blue, Color.green, Color.red, Color.yellow, Color.white};
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 5; y++)  {
+		for (int x = 0; x < 9; x++) {
+			for (int y = 0; y < 6; y++)  {
 				cubePosition = new Vector3 (x*1.75f-6f,y*1.75f-5f,0); 
 				grid[x,y] = Instantiate (cube, cubePosition, Quaternion.identity);
 				//grid[x,y].GetComponent<cubeScript>().x = x; 
 				//grid[x,y].GetComponent<cubeScript>().y = y;
 				grid[x,y].GetComponent<Renderer>().material.color = colors[Random.Range(0,6)];
+				if (x == 8 || y == 5){
+					grid [x, y].SetActive (false);
+				}
 			}
 		}
-		cube1Color = colors [Random.Range (0, 6)];
-		cube2Color = colors [Random.Range (0, 6)];
 		newBlocks ();
-		
+		for (int x = 0; x < 9; x++) {
+			for (int y = 0; y < 6; y++) {
+				cubeColor = grid [x, y].GetComponent<Renderer> ().material.color; 
+				if (x != 0 && x != 8 && y != 0 && y != 5) {
+					leftCubeColor = grid [x - 1, y].GetComponent<Renderer> ().material.color; 
+					rightCubeColor = grid [x + 1, y].GetComponent<Renderer> ().material.color; 
+					upperCubeColor = grid [x, y + 1].GetComponent<Renderer> ().material.color; 
+					lowerCubeColor = grid [x, y - 1].GetComponent<Renderer> ().material.color; 
+					while (cubeColor == leftCubeColor || cubeColor == rightCubeColor || cubeColor == upperCubeColor ||cubeColor == lowerCubeColor ) {
+						grid[x,y].GetComponent<Renderer>().material.color = colors[Random.Range(0,6)];
+						cubeColor = grid [x, y].GetComponent<Renderer> ().material.color; 
+					}
+				}
+			}
+		}	
 	}
 	
 	// Update is called once per frame
@@ -51,8 +66,8 @@ public class NewBehaviourScript : MonoBehaviour {
 	} 
 
 	void newBlocks() {
-		grid[starterCube1X,starterCube1Y] = Instantiate (cube, new Vector3 (starterCube1X*1.75f-6f,starterCube1X*1.75f-5f,0), Quaternion.identity);
-		grid[starterCube2X,starterCube2Y] = Instantiate (cube, new Vector3 (starterCube2X*1.75f-6f,starterCube2Y*1.75f-5f,0) , Quaternion.identity);
+		grid [starterCube1X, starterCube1Y].SetActive (true);
+		grid [starterCube2X, starterCube2Y].SetActive (true); 
 		grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
 		grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
 	}
@@ -81,8 +96,8 @@ public class NewBehaviourScript : MonoBehaviour {
 			starterCube2Y += moveStarterCubesY;
 			moveStarterCubesY = 0;
 			moveStarterCubesX = 0;
-			grid [starterCube1X,starterCube1Y] = Instantiate (cube, new Vector3 (starterCube1X*1.75f-6f,starterCube1Y*1.75f-5f,0), Quaternion.identity);
-			grid [starterCube2X,starterCube2Y] = Instantiate (cube, new Vector3 (starterCube2X*1.75f-6f,starterCube2Y*1.75f-5f,0) , Quaternion.identity);
+			grid [starterCube1X, starterCube1Y].SetActive (true);
+			grid [starterCube2X, starterCube2Y].SetActive (true);
 			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
 			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
 		}
@@ -92,8 +107,8 @@ public class NewBehaviourScript : MonoBehaviour {
 			starterCube1X += moveStarterCubesX;
 			moveStarterCubesX = 0;
 			moveStarterCubesY = 0;
-			grid [starterCube1X,starterCube1Y] = Instantiate (cube, new Vector3 (starterCube1X*1.75f-6f,starterCube1Y*1.75f-5f,0), Quaternion.identity);
-			grid [starterCube2X,starterCube2Y] = Instantiate (cube, new Vector3 (starterCube2X*1.75f-6f,starterCube2Y*1.75f-5f,0) , Quaternion.identity);
+			grid [starterCube1X, starterCube1Y].SetActive (true);
+			grid [starterCube2X, starterCube2Y].SetActive (true);
 			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
 			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
 		}
@@ -102,8 +117,8 @@ public class NewBehaviourScript : MonoBehaviour {
 			grid [starterCube2X, starterCube2Y].SetActive (false); 
 			starterCube2Y += moveStarterCubesY;
 			moveStarterCubesX = 0;
-			grid [starterCube1X,starterCube1Y] = Instantiate (cube, new Vector3 (starterCube1X*1.75f-6f,starterCube1Y*1.75f-5f,0), Quaternion.identity);
-			grid [starterCube2X,starterCube2Y] = Instantiate (cube, new Vector3 (starterCube2X*1.75f-6f,starterCube2Y*1.75f-5f,0) , Quaternion.identity);
+			grid [starterCube1X, starterCube1Y].SetActive (true);
+			grid [starterCube2X, starterCube2Y].SetActive (true);
 			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
 			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
 		}
