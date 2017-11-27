@@ -11,8 +11,6 @@ public class NewBehaviourScript : MonoBehaviour {
 	static GameObject[,] grid;
 	Color[,] colors;
 	Color cube1Color,cube2Color;
-	public Text text1; 
-	public Text text2;
 
 	// Use this for initialization
 	void Start () {
