@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour {
+	public bool actionPhase, planningPhase, endingPhase; 
+	public int actionPhaseTimeLeft,actionPhaseSubtract; 
 	public GameObject cube;
 	Vector3 cubePosition; 
 	public static int starterCube1X, starterCube1Y, starterCube2X, starterCube2Y,gridX,gridY;
@@ -49,7 +51,11 @@ public class NewBehaviourScript : MonoBehaviour {
 					rightCubeColor = grid [x + 1, y].GetComponent<Renderer> ().material.color; 
 					upperCubeColor = grid [x, y + 1].GetComponent<Renderer> ().material.color; 
 					lowerCubeColor = grid [x, y - 1].GetComponent<Renderer> ().material.color; 
-					while (cubeColor == leftCubeColor || cubeColor == rightCubeColor || cubeColor == upperCubeColor ||cubeColor == lowerCubeColor ) {
+					while (cubeColor == leftCubeColor && cubeColor == rightCubeColor)  {
+						grid[x,y].GetComponent<Renderer>().material.color = colors[Random.Range(0,6)];
+						cubeColor = grid [x, y].GetComponent<Renderer> ().material.color; 
+					}
+					while (cubeColor == upperCubeColor && cubeColor == lowerCubeColor) {
 						grid[x,y].GetComponent<Renderer>().material.color = colors[Random.Range(0,6)];
 						cubeColor = grid [x, y].GetComponent<Renderer> ().material.color; 
 					}
@@ -60,6 +66,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		time = time.Time; 
 		newBlocks ();
 		detectKeyboardInput ();
 		moveCubes ();
