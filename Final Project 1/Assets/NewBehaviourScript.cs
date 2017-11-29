@@ -13,6 +13,8 @@ public class NewBehaviourScript : MonoBehaviour {
 	static GameObject[,] grid;
 	Color[,] colors;
 	Color cube1Color,cube2Color;
+
+ 
 	public Text text1, text2;
 	Color cubeColor,leftCubeColor,rightCubeColor,upperCubeColor,lowerCubeColor;
 
@@ -66,7 +68,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		time = time.Time; 
+		 
 		newBlocks ();
 		detectKeyboardInput ();
 		moveCubes ();
