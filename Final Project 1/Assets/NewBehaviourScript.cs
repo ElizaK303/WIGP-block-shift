@@ -110,7 +110,16 @@ public class NewBehaviourScript : MonoBehaviour {
 	}
 	void determineMovement() {
 		if (moveStarterCubesY == -1 && starterCube2Y > 0) {
-			moveCubes (starterCube2Y,moveStarterCubesY);
+			//moveCubes (starterCube2Y,moveStarterCubesY);
+			grid [starterCube1X, starterCube1Y].SetActive (false); 
+			grid [starterCube2X, starterCube2Y].SetActive (false); 
+			starterCube2Y += moveStarterCubesY;
+			moveStarterCubesY = 0;
+			moveStarterCubesX = 0;
+			grid [starterCube1X, starterCube1Y].SetActive (true);
+			grid [starterCube2X, starterCube2Y].SetActive (true);
+			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
+			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
 		
 		}
 		if (moveStarterCubesX == -1 && starterCube1X > 0) {
