@@ -584,7 +584,7 @@ GameObject:
   - component: {fileID: 1949030490}
   - component: {fileID: 1949030489}
   - component: {fileID: 1949030491}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -602,7 +602,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8d20a1af5474e13b8a07d9775164d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionPhase: 0
+  planningPhase: 0
+  endingPhase: 0
+  actionPhaseTimeLeft: 0
+  actionPhaseSubtract: 0
   cube: {fileID: 1084064707986528, guid: 710c25ae342c747a7afe7f60069307ff, type: 2}
+  text1: {fileID: 0}
+  text2: {fileID: 0}
 --- !u!4 &1949030490
 Transform:
   m_ObjectHideFlags: 0
