@@ -97,10 +97,14 @@ public class NewBehaviourScript : MonoBehaviour {
 			moveStarterCubesX = 0;
 		}
 	}
-	void moveCubes(int cubeLoc1, int cubeLoc2 ) {
+	void moveCubes(bool isDirectionY) {
 		grid [starterCube1X, starterCube1Y].SetActive (false); 
 		grid [starterCube2X, starterCube2Y].SetActive (false); 
-		cubeLoc1 += cubeLoc2;
+		if (isDirectionY) {
+			starterCube2Y += moveStarterCubesY;
+		} else {
+			starterCube1X += moveStarterCubesX;
+		}
 		moveStarterCubesY = 0;
 		moveStarterCubesX = 0;
 		grid [starterCube1X, starterCube1Y].SetActive (true);
@@ -109,29 +113,12 @@ public class NewBehaviourScript : MonoBehaviour {
 		grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
 	}
 	void determineMovement() {
-		if (moveStarterCubesY == -1 && starterCube2Y > 0) {
-			//moveCubes (starterCube2Y,moveStarterCubesY);
-			grid [starterCube1X, starterCube1Y].SetActive (false); 
-			grid [starterCube2X, starterCube2Y].SetActive (false); 
-			starterCube2Y += moveStarterCubesY;
-			moveStarterCubesY = 0;
-			moveStarterCubesX = 0;
-			grid [starterCube1X, starterCube1Y].SetActive (true);
-			grid [starterCube2X, starterCube2Y].SetActive (true);
-			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
-			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
-		
+		if ((moveStarterCubesY == -1 && starterCube2Y > 0 )|| (moveStarterCubesY == 1 && starterCube2Y < 4 )) {
+			moveCubes (true); 
+
 		}
-		if (moveStarterCubesX == -1 && starterCube1X > 0) {
-			moveCubes(starterCube1X,moveStarterCubesX);
-			 
-		}
-		if (moveStarterCubesY == 1 && starterCube2Y < 4 ) {
-			moveCubes (starterCube2Y,moveStarterCubesY);
-			 
-		}
-		if (moveStarterCubesX == 1 && starterCube1X < 7) {
-			moveCubes (starterCube1X,moveStarterCubesX);
+		if ((moveStarterCubesX == -1 && starterCube1X > 0)|| (moveStarterCubesX == 1 && starterCube1X < 7)) {
+			moveCubes(false);
 			 
 		}
 
