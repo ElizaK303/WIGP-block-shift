@@ -8,7 +8,6 @@ public class ScriptTimer : MonoBehaviour {
 	//Create a UI Text, then create an Buttom.UI and put the text here. In button select gameobject and script timer click
 
 	public Text Timer;
-	public Text stoptimer;
 	private float time = 4f;
 	bool ActivateButton;
 
@@ -36,12 +35,19 @@ public class ScriptTimer : MonoBehaviour {
 				Timer.text = " Start ";
 				time = 4f;
 				ActivateButton = false;
+
+				ControlState.ChangePhases (Phase.Resolution);
+
 			}
 		}
 }
 
 	public void Click() {
 		
+		
 		ActivateButton = true;
+
+		ControlState.ChangePhases (Phase.Action);
+
 	}
 }

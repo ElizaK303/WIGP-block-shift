@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour {
-	public bool actionPhase, planningPhase, endingPhase; 
+	
 	public int actionPhaseTimeLeft,actionPhaseSubtract; 
 	public GameObject cube;
 	Vector3 cubePosition; 
@@ -14,7 +14,6 @@ public class NewBehaviourScript : MonoBehaviour {
 	Color[,] colors;
 	Color cube1Color,cube2Color;
 
- 
 	public Text text1, text2;
 	Color cubeColor,leftCubeColor,rightCubeColor,upperCubeColor,lowerCubeColor;
 
@@ -79,7 +78,11 @@ public class NewBehaviourScript : MonoBehaviour {
 		grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
 		grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
 	}
+
 	void detectKeyboardInput() {
+
+		if(ControlState.CurrentPhase == Phase.Planning){
+
 		if (Input.GetKeyDown(KeyCode.DownArrow)) {
 			moveStarterCubesY = -1; 
 			moveStarterCubesX = 0;
@@ -96,7 +99,10 @@ public class NewBehaviourScript : MonoBehaviour {
 			moveStarterCubesY = 1; 
 			moveStarterCubesX = 0;
 		}
-	}
+		
+	}	
+
+}
 	void moveCubes(bool isDirectionY) {
 		grid [starterCube1X, starterCube1Y].SetActive (false); 
 		grid [starterCube2X, starterCube2Y].SetActive (false); 
@@ -124,53 +130,5 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	}
 
-	/*void determineMovement() {
-		if (moveStarterCubesY == -1 && starterCube2Y > 0) {
-			grid [starterCube1X, starterCube1Y].SetActive (false); 
-			grid [starterCube2X, starterCube2Y].SetActive (false); 
-			starterCube2Y += moveStarterCubesY;
-			moveStarterCubesY = 0;
-			moveStarterCubesX = 0;
-			grid [starterCube1X, starterCube1Y].SetActive (true);
-			grid [starterCube2X, starterCube2Y].SetActive (true);
-			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
-			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
-		}
-		if (moveStarterCubesX == -1 && starterCube1X > 0) {
-			grid [starterCube1X, starterCube1Y].SetActive (false); 
-			grid [starterCube2X, starterCube2Y].SetActive (false); 
-			starterCube1X += moveStarterCubesX;
-			moveStarterCubesX = 0;
-			moveStarterCubesY = 0;
-			grid [starterCube1X, starterCube1Y].SetActive (true);
-			grid [starterCube2X, starterCube2Y].SetActive (true);
-			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
-			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
-		}
-		if (moveStarterCubesY == 1 && starterCube2Y < 4 ) {
-			grid [starterCube1X, starterCube1Y].SetActive (false); 
-			grid [starterCube2X, starterCube2Y].SetActive (false); 
-			starterCube2Y += moveStarterCubesY;
-			moveStarterCubesX = 0;
-			moveStarterCubesY = 0;
-			grid [starterCube1X, starterCube1Y].SetActive (true);
-			grid [starterCube2X, starterCube2Y].SetActive (true);
-			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
-			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
-		}
-		if (moveStarterCubesX == 1 && starterCube1X < 7) {
-			grid [starterCube1X, starterCube1Y].SetActive (false); 
-			grid [starterCube2X, starterCube2Y].SetActive (false); 
-			starterCube1X += moveStarterCubesX;
-			moveStarterCubesX = 0;
-			moveStarterCubesY = 0;
-			grid [starterCube1X, starterCube1Y].SetActive (true);
-			grid [starterCube2X, starterCube2Y].SetActive (true);
-			grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
-			grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
-
-		}
-
-	}*/
 	  
 }
