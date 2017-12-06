@@ -6,7 +6,7 @@ using UnityEngine;
 public class ScriptTimer : MonoBehaviour {
 
 	//Create a UI Text, then create an Buttom.UI and put the text here. In button select gameobject and script timer click
-
+	public Button phaseButton;
 	public Text Timer;
 	private float time = 4f;
 	bool ActivateButton;
@@ -23,7 +23,7 @@ public class ScriptTimer : MonoBehaviour {
 
 		//When the action button is true, it starts the timer counting down
 
-		if (ActivateButton) {
+		if (ControlState.CurrentPhase == Phase.Action) {
 
 			time -= Time.deltaTime;
 			Timer.text = "  " + time.ToString (" 0 ");
@@ -39,14 +39,23 @@ public class ScriptTimer : MonoBehaviour {
 				ControlState.ChangePhases (Phase.Resolution);
 
 			}
+
+			if (ControlState.CurrentPhase == Phase.Resolution) {
+				phaseButton.gameObject.SetActive (false);
+				Timer.text = "";
+			
+			}
+			if(ControlState.CurrentPhase == Phase.Planning) {
+				Timer.text = " Start ";
+			}
+
+
 		}
 }
 
 	public void Click() {
 		
 		
-		ActivateButton = true;
-
 		ControlState.ChangePhases (Phase.Action);
 
 	}
