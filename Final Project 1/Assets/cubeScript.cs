@@ -13,4 +13,9 @@ public class cubeScript : MonoBehaviour {
 	void Update () {
 		
 	}
+	void OnMouseDown() {
+		if (ControlState.CurrentPhase == Phase.Action) {
+			NewBehaviourScript.ProcessClick (gameObject);
+		}
+	}
 }
