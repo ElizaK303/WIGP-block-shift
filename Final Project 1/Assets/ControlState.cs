@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum Phase {
 
-	//lol//
-
 	Planning,
 	Action,
 	Resolution
