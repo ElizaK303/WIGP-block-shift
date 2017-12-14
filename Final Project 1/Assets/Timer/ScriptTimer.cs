@@ -56,8 +56,8 @@ public class ScriptTimer : MonoBehaviour {
 
 	public void Click() {
 		
-		
 		ControlState.ChangePhases (Phase.Action);
+
 
 	}
 }
