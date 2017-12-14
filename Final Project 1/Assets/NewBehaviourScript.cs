@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour {
-	
+
+	public static NewBehaviourScript instance; 
 	public int actionPhaseTimeLeft,actionPhaseSubtract; 
 	public GameObject cube;
 	Vector3 cubePosition; 
@@ -14,11 +15,12 @@ public class NewBehaviourScript : MonoBehaviour {
 	Color[,] colors;
 	Color cube1Color,cube2Color;
 	public Text text1, text2;
-	Color cubeColor,leftCubeColor,rightCubeColor,upperCubeColor,lowerCubeColor;
-
+	Color cubeColor,leftCubeColor,rightCubeColor,upperCubeColor,lowerCubeColor,gridColor;
+	List<Color> loot;
 	// Use this for initialization
 	void Start () {
-		
+		instance = this;
+		loot = new List<Color>();
 		gridX = 9; 
 		gridY = 6;
 		grid = new GameObject[gridX,gridY];
@@ -42,7 +44,6 @@ public class NewBehaviourScript : MonoBehaviour {
 				}
 			}
 		}
-		newBlocks ();
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 6; y++) {
 				cubeColor = grid [x, y].GetComponent<Renderer> ().material.color; 
@@ -66,9 +67,11 @@ public class NewBehaviourScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		newBlocks ();
 		detectKeyboardInput ();
 		determineMovement ();
+		if (ControlState.CurrentPhase == Phase.Planning) {
+			newBlocks ();
+		}
 	} 
 
 	void newBlocks() {
@@ -120,20 +123,68 @@ public class NewBehaviourScript : MonoBehaviour {
 	void determineMovement() {
 		if ((moveStarterCubesY == -1 && starterCube2Y > 0 )|| (moveStarterCubesY == 1 && starterCube2Y < 4 )) {
 			moveCubes (true); 
-
 		}
 		if ((moveStarterCubesX == -1 && starterCube1X > 0)|| (moveStarterCubesX == 1 && starterCube1X < 7)) {
 			moveCubes(false);
-			 
 		}
 
 	}
 	public static void ProcessClick(GameObject clickedCube) {
-		if (clickedCube.active) { 
+		if (clickedCube.activeSelf) { 
 			Destroy (clickedCube);
-
 		}
 	}
+	public void pushBlocks() {
+		Color oldCubeColor; 
+		oldCubeColor = Color.blue;
+		bool end = false;
 
-	  
+		for (int y = gridY-1; y >= 0 && !end; y--) {
+			if (y == gridY - 1) {
+				gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
+				grid [starterCube1X, y].SetActive (false);
+			} else {
+				gridColor = oldCubeColor;
+			}
+			if (y == 0) { 
+				loot.Add (gridColor);
+			} else if (grid [starterCube1X, y - 1] == null) {
+				cubePosition = new Vector3 (starterCube1X * 1.75f - 6f, (y - 1) * 1.75f - 5f, 0);
+				grid [starterCube1X, y - 1] = Instantiate (cube, cubePosition, Quaternion.identity);
+				//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
+				grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
+				if (y == gridY - 1) {
+					grid [starterCube1X, y].SetActive (false);
+				} else {
+					Destroy (grid [starterCube1X, y]);
+				}
+				Debug.Log ("break");
+				end = true;
+			} else {
+				oldCubeColor = grid [starterCube1X, y - 1].GetComponent < Renderer> ().material.color;
+				grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
+			}
+			Debug.Log ("continue for loop");
+
+		}
+		if (starterCube2X == 8) {
+			
+
+		}
+	} 
 }
+
+
+
+	/*void fillGrid() {
+		if (ControlState.CurrentPhase == Phase.Resolution) {
+			for (int x = 0; x < 9; x++) {
+				for (int y = 0; y < 6; y++) {
+					if (x =){
+					}
+				}
+			}
+
+		}
+	} */
+	  

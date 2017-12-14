@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum Phase {
 
-	//lol//
 
 	Planning,
 	Action,
@@ -19,8 +18,10 @@ public class ControlState : MonoBehaviour {
 	public static void ChangePhases(Phase NewPhase){
 
 	CurrentPhase = NewPhase;
-	
-	
+		if (ControlState.CurrentPhase == Phase.Resolution) {
+			NewBehaviourScript.instance.pushBlocks ();
+		}
+
 	}
 
 

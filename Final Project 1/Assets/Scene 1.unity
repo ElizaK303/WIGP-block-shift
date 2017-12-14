@@ -280,6 +280,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &681677391 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114735994573385048, guid: 5de8546dbca1cb442a6ceb98e528304b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1788021373}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1768982515
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,17 +401,17 @@ Prefab:
     - target: {fileID: 224171878783640622, guid: 5de8546dbca1cb442a6ceb98e528304b,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224171878783640622, guid: 5de8546dbca1cb442a6ceb98e528304b,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224171878783640622, guid: 5de8546dbca1cb442a6ceb98e528304b,
         type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -51
+      objectReference: {fileID: 0}
+    - target: {fileID: 224171878783640622, guid: 5de8546dbca1cb442a6ceb98e528304b,
+        type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 85
+      value: 103
       objectReference: {fileID: 0}
     - target: {fileID: 224171878783640622, guid: 5de8546dbca1cb442a6ceb98e528304b,
         type: 2}
@@ -415,7 +421,7 @@ Prefab:
     - target: {fileID: 224171878783640622, guid: 5de8546dbca1cb442a6ceb98e528304b,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 38
+      value: 41.4
       objectReference: {fileID: 0}
     - target: {fileID: 224171878783640622, guid: 5de8546dbca1cb442a6ceb98e528304b,
         type: 2}
@@ -602,9 +608,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8d20a1af5474e13b8a07d9775164d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionPhase: 0
-  planningPhase: 0
-  endingPhase: 0
   actionPhaseTimeLeft: 0
   actionPhaseSubtract: 0
   cube: {fileID: 1084064707986528, guid: 710c25ae342c747a7afe7f60069307ff, type: 2}
@@ -634,5 +637,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2e06450cfd3b146a4557ca63257740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  phaseButton: {fileID: 681677391}
   Timer: {fileID: 64449287}
-  stoptimer: {fileID: 0}

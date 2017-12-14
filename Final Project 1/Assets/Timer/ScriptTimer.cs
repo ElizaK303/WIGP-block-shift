@@ -16,6 +16,7 @@ public class ScriptTimer : MonoBehaviour {
 		
 		Timer.text = " Start ";
 		ActivateButton = false;
+
 	}
 	
 	// Update is called once per frame
