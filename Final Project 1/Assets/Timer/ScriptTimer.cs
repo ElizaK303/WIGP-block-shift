@@ -9,13 +9,12 @@ public class ScriptTimer : MonoBehaviour {
 	public Button phaseButton;
 	public Text Timer;
 	private float time = 4f;
-	bool ActivateButton;
+	//bool ActivateButton;
 
 	// Use this for initialization
 	void Start () {
-		
-		Timer.text = " Start ";
-		ActivateButton = false;
+		Timer.text = "Start";
+		//ActivateButton = false;
 
 	}
 	
@@ -35,7 +34,7 @@ public class ScriptTimer : MonoBehaviour {
 
 				Timer.text = " Start ";
 				time = 4f;
-				ActivateButton = false;
+				//ActivateButton = false;
 
 				ControlState.ChangePhases (Phase.Resolution);
 
@@ -46,18 +45,28 @@ public class ScriptTimer : MonoBehaviour {
 				Timer.text = "";
 			
 			}
-			if(ControlState.CurrentPhase == Phase.Planning) {
-				Timer.text = " Start ";
-			}
-
-
+		
+		}
+		if(ControlState.CurrentPhase == Phase.Planning) {
+			phaseButton.gameObject.SetActive (true);
+			Timer.text = " Start ";
+		}
+		if (ControlState.CurrentPhase == Phase.End) { 
+			phaseButton.gameObject.SetActive (true);
+			Timer.text = " Game Over! To Play Again Click Here :)";
 		}
 }
 
 	public void Click() {
-		
-		ControlState.ChangePhases (Phase.Action);
-
+		if (ControlState.CurrentPhase == Phase.Planning) {
+			ControlState.ChangePhases (Phase.Action);
+		}
+		if (ControlState.CurrentPhase == Phase.End) { 
+			NewBehaviourScript.newScore = 0; 
+			NewBehaviourScript.score = 0; 
+			NewBehaviourScript.turn = 0;
+			ControlState.ChangePhases (Phase.Planning);
+		}
 
 	}
 }

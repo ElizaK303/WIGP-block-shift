@@ -6,7 +6,8 @@ public enum Phase {
 
 	Planning,
 	Action,
-	Resolution
+	Resolution, 
+	End
 
 }
 

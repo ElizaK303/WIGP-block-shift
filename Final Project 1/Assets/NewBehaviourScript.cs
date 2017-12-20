@@ -4,21 +4,29 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour {
-
+	
 	public static NewBehaviourScript instance; 
 	public int actionPhaseTimeLeft,actionPhaseSubtract; 
 	public GameObject cube;
 	Vector3 cubePosition; 
-	public static int starterCube1X, starterCube1Y, starterCube2X, starterCube2Y,gridX,gridY;
+	public static int starterCube1X, starterCube1Y, starterCube2X, starterCube2Y,gridX,gridY,turnMax,turn;
 	public static int moveStarterCubesX, moveStarterCubesY;
 	static GameObject[,] grid;
 	Color[,] colors;
 	Color cube1Color,cube2Color;
 	public Text text1, text2;
 	Color cubeColor,leftCubeColor,rightCubeColor,upperCubeColor,lowerCubeColor,gridColor;
-	List<Color> loot;
+	public static List<Color> loot;
+	public static int score,newScore,lootScore;
+	public bool over,newBlocksSpawned; 
+
 	// Use this for initialization
 	void Start () {
+		over = false; 
+		newBlocksSpawned = false;
+		turn = 0; 
+		turnMax = 12;
+		score = 0;
 		instance = this;
 		loot = new List<Color>();
 		gridX = 9; 
@@ -30,7 +38,6 @@ public class NewBehaviourScript : MonoBehaviour {
 		starterCube2Y = 3;
 		moveStarterCubesX = 0;
 		moveStarterCubesY = 0;
-
 		Color[] colors = {Color.black, Color.blue, Color.green, Color.red, Color.yellow, Color.white};
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 6; y++)  {
@@ -72,9 +79,31 @@ public class NewBehaviourScript : MonoBehaviour {
 		if (ControlState.CurrentPhase == Phase.Planning) {
 			newBlocks ();
 		}
-	} 
+		if (ControlState.CurrentPhase == Phase.Resolution){ 
+			getScore (); 
+			print(score); 
+			turn += 1;
+			newBlocksSpawned = false;
+			fillNullSpots ();
+			if (turn < turnMax) {
+				ControlState.ChangePhases (Phase.Planning);
+				over = false; 
+			}
+			if (turn == turnMax) {
+				ControlState.ChangePhases (Phase.End);
+				over = false;
+			}
+	}		
+
+	}
 
 	void newBlocks() {
+		while (!over) {
+			Color[] colors = {Color.black, Color.blue, Color.green, Color.red, Color.yellow, Color.white};
+			cube1Color = colors[Random.Range(0,6)];
+			cube2Color = colors[Random.Range(0,6)];
+			over = true;
+		}
 		grid [starterCube1X, starterCube1Y].SetActive (true);
 		grid [starterCube2X, starterCube2Y].SetActive (true); 
 		grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
@@ -149,30 +178,102 @@ public class NewBehaviourScript : MonoBehaviour {
 			if (y == 0) { 
 				loot.Add (gridColor);
 			} else if (grid [starterCube1X, y - 1] == null) {
-				cubePosition = new Vector3 (starterCube1X * 1.75f - 6f, (y - 1) * 1.75f - 5f, 0);
-				grid [starterCube1X, y - 1] = Instantiate (cube, cubePosition, Quaternion.identity);
-				//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
-				grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
-				if (y == gridY - 1) {
-					grid [starterCube1X, y].SetActive (false);
-				} else {
-					Destroy (grid [starterCube1X, y]);
+				while (grid [starterCube1X, y - 1] == null) {
+					cubePosition = new Vector3 (starterCube1X * 1.75f - 6f, (y - 1) * 1.75f - 5f, 0);
+					grid [starterCube1X, y - 1] = Instantiate (cube, cubePosition, Quaternion.identity);
+					//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
+					grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
+					if (y == gridY - 1) {
+						grid [starterCube1X, y].SetActive (false);
+					} else {
+						Destroy (grid [starterCube1X, y]);
+					}
 				}
-				Debug.Log ("break");
-				end = true;
+			
+				//Debug.Log ("break");
+				//end = true;
 			} else {
 				oldCubeColor = grid [starterCube1X, y - 1].GetComponent < Renderer> ().material.color;
 				grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
 			}
-			Debug.Log ("continue for loop");
+			//Debug.Log ("continue for loop");
 
 		}
 		if (starterCube2X == 8) {
-			
+			for (int x = gridX-1; x >= 0 && !end; x--) {
+				if (x == gridX - 1) {
+					gridColor = grid [x, starterCube2Y].GetComponent<Renderer> ().material.color;
+					grid [x, starterCube2Y].SetActive (false);
+				} else {
+					gridColor = oldCubeColor;
+				}
+				if (x == 0) { 
+					loot.Add (gridColor);
+				} else if (grid [x, starterCube2Y]== null) {
+					while (grid [x, starterCube2Y] == null) {
+						cubePosition = new Vector3 (x * 1.75f - 6f, (starterCube2Y - 1) * 1.75f - 5f, 0);
+						grid [x, starterCube2Y] = Instantiate (cube, cubePosition, Quaternion.identity);
+						//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
+						grid [x, starterCube2Y].GetComponent<Renderer> ().material.color = gridColor;
+						if (x == gridY - 1) {
+							grid [x, starterCube2Y].SetActive (false);
+						} else {
+							Destroy (grid [x, starterCube2Y]);
+						}
+					}
+
+					//Debug.Log ("break");
+					//end = true;
+				} else {
+					oldCubeColor = grid [x, starterCube2Y].GetComponent < Renderer> ().material.color;
+					grid [x, starterCube2Y].GetComponent<Renderer> ().material.color = gridColor;
+				}
+
+
+			}
+
 
 		}
 	} 
+
+	public void getScore() {
+		newScore = 0;
+		lootScore = loot.Count;
+		score += lootScore;
+		loot.Clear();
+		for (int x = 0; x< gridX-2; x++) {
+			for (int y = 0; y< gridY-2; y++) { 
+				if (grid[x,y].GetComponent<Renderer>().material.color ==
+					grid[x+1, y].GetComponent<Renderer>().material.color)
+				{
+					if (grid[x, y].GetComponent<Renderer>().material.color ==
+						grid[x+2, y].GetComponent<Renderer>().material.color)
+					{
+						newScore += 10;
+					}
+			}
+		}
+			
+	}
+		if (newScore >= 20) {
+			newScore *= (newScore / 10);
+		}
+		score += newScore; 
 }
+	public void fillNullSpots() {
+		while (!newBlocksSpawned) {
+			for (int x = 0; x < 9; x++) {
+				for (int y = 0; y < 6; y++)  {
+					if (grid [x, y] == null) {
+						cubePosition = new Vector3 (x*1.75f-6f,y*1.75f-5f,0); 
+						grid [x, y] = Instantiate (cube, cubePosition, Quaternion.identity);
+					}
+				
+				}
+			}
+			newBlocksSpawned = true; 
+		}
+	}
 
 
 
@@ -187,4 +288,4 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		}
 	} */
-	  
+}

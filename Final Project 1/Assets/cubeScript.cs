@@ -14,7 +14,7 @@ public class cubeScript : MonoBehaviour {
 		
 	}
 	void OnMouseDown() {
-		if (ControlState.CurrentPhase == Phase.Action) {
+		if (ControlState.CurrentPhase == Phase.Action /*NewBehaviourScript.grid[x*/) {
 			NewBehaviourScript.ProcessClick (gameObject);
 		}
 	}
