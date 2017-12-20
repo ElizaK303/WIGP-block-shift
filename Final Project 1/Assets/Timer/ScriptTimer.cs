@@ -6,9 +6,13 @@ using UnityEngine;
 public class ScriptTimer : MonoBehaviour {
 
 	//Create a UI Text, then create an Buttom.UI and put the text here. In button select gameobject and script timer click
+	//public static ScriptTimer instance; 
 	public Button phaseButton;
 	public Text Timer;
 	private float time = 4f;
+	public GameObject gameMusicAction; 
+	public GameObject gameMusic; 
+
 	//bool ActivateButton;
 
 	// Use this for initialization
@@ -52,6 +56,7 @@ public class ScriptTimer : MonoBehaviour {
 			Timer.text = " Start ";
 		}
 		if (ControlState.CurrentPhase == Phase.End) { 
+			//Instantiate (gameMusic, new Vector3 (0,0,0), Quaternion.identity);
 			phaseButton.gameObject.SetActive (true);
 			Timer.text = " Game Over! To Play Again Click Here :)";
 		}
@@ -59,12 +64,16 @@ public class ScriptTimer : MonoBehaviour {
 
 	public void Click() {
 		if (ControlState.CurrentPhase == Phase.Planning) {
+			//Destroy (NewBehaviourScript.instance.gameMusic);
+			//Instantiate (gameMusicAction, new Vector3 (0,0,0), Quaternion.identity);
 			ControlState.ChangePhases (Phase.Action);
 		}
 		if (ControlState.CurrentPhase == Phase.End) { 
 			NewBehaviourScript.newScore = 0; 
 			NewBehaviourScript.score = 0; 
 			NewBehaviourScript.turn = 0;
+			//Destroy (NewBehaviourScript.instance.gameMusic);
+			//Instantiate (gameMusic, new Vector3 (0,0,0), Quaternion.identity);
 			ControlState.ChangePhases (Phase.Planning);
 		}
 

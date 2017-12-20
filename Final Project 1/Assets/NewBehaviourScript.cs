@@ -19,7 +19,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	public static List<Color> loot;
 	public static int score,newScore,lootScore;
 	public bool over,newBlocksSpawned; 
-
+	public GameObject gameMusic; 
 	// Use this for initialization
 	void Start () {
 		over = false; 
@@ -39,6 +39,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		moveStarterCubesX = 0;
 		moveStarterCubesY = 0;
 		Color[] colors = {Color.black, Color.blue, Color.green, Color.red, Color.yellow, Color.white};
+		//Instantiate (gameMusic, new Vector3 (0,0,0), Quaternion.identity);
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 6; y++)  {
 				cubePosition = new Vector3 (x*1.75f-6f,y*1.75f-5f,0); 
@@ -271,6 +272,8 @@ public class NewBehaviourScript : MonoBehaviour {
 				
 				}
 			}
+			//Destroy (ScriptTimer.instance.gameMusic); 
+			//Instantiate (gameMusic, new Vector3 (0,0,0), Quaternion.identity);
 			newBlocksSpawned = true; 
 		}
 	}
