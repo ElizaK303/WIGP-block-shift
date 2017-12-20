@@ -40,6 +40,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		moveStarterCubesY = 0;
 		Color[] colors = {Color.black, Color.blue, Color.green, Color.red, Color.yellow, Color.white};
 		//Instantiate (gameMusic, new Vector3 (0,0,0), Quaternion.identity);
+		//Sets 8*5 grid plus pusher cubes. 
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 6; y++)  {
 				cubePosition = new Vector3 (x*1.75f-6f,y*1.75f-5f,0); 
@@ -99,12 +100,14 @@ public class NewBehaviourScript : MonoBehaviour {
 	}
 
 	void newBlocks() {
+		//sets the color of the two pusher cubes
 		while (!over) {
 			Color[] colors = {Color.black, Color.blue, Color.green, Color.red, Color.yellow, Color.white};
 			cube1Color = colors[Random.Range(0,6)];
 			cube2Color = colors[Random.Range(0,6)];
 			over = true;
 		}
+		//instantiates pusher cubes
 		grid [starterCube1X, starterCube1Y].SetActive (true);
 		grid [starterCube2X, starterCube2Y].SetActive (true); 
 		grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
@@ -112,6 +115,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	}
 
 	void detectKeyboardInput() {
+		//Gets keyboard input during planning phase. 
 
 		if(ControlState.CurrentPhase == Phase.Planning){
 
@@ -136,21 +140,26 @@ public class NewBehaviourScript : MonoBehaviour {
 
 }
 	void moveCubes(bool isDirectionY) {
+		//sets the original cubes inactive if a key was pressed. 
 		grid [starterCube1X, starterCube1Y].SetActive (false); 
 		grid [starterCube2X, starterCube2Y].SetActive (false); 
+		//Determines which grid location (gridx location or gridy location) the number should be added to. 
 		if (isDirectionY) {
 			starterCube2Y += moveStarterCubesY;
 		} else {
 			starterCube1X += moveStarterCubesX;
 		}
+		//resets keyboard input.
 		moveStarterCubesY = 0;
 		moveStarterCubesX = 0;
+		//instantiates new cubes. 
 		grid [starterCube1X, starterCube1Y].SetActive (true);
 		grid [starterCube2X, starterCube2Y].SetActive (true);
 		grid [starterCube1X, starterCube1Y].GetComponent<Renderer> ().material.color = cube1Color;
 		grid [starterCube2X, starterCube2Y].GetComponent<Renderer> ().material.color = cube2Color;
 	}
 	void determineMovement() {
+		//adds keyboard input int to gridx or grid y location 
 		if ((moveStarterCubesY == -1 && starterCube2Y > 0 )|| (moveStarterCubesY == 1 && starterCube2Y < 4 )) {
 			moveCubes (true); 
 		}
@@ -160,6 +169,7 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	}
 	public static void ProcessClick(GameObject clickedCube) {
+		//deletes cube if clicked 
 		if (clickedCube.activeSelf) { 
 			Destroy (clickedCube);
 		}
@@ -168,7 +178,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		Color oldCubeColor; 
 		oldCubeColor = Color.blue;
 		bool end = false;
-
+		//moves pusher bocks.  
 		for (int y = gridY-1; y >= 0 && !end; y--) {
 			if (y == gridY - 1) {
 				gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
@@ -177,6 +187,7 @@ public class NewBehaviourScript : MonoBehaviour {
 				gridColor = oldCubeColor;
 			}
 			if (y == 0) { 
+				//appends to grid array of loot so that the length can be counted. 	
 				loot.Add (gridColor);
 			} else if (grid [starterCube1X, y - 1] == null) {
 				while (grid [starterCube1X, y - 1] == null) {
@@ -191,13 +202,10 @@ public class NewBehaviourScript : MonoBehaviour {
 					}
 				}
 			
-				//Debug.Log ("break");
-				//end = true;
 			} else {
 				oldCubeColor = grid [starterCube1X, y - 1].GetComponent < Renderer> ().material.color;
 				grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
 			}
-			//Debug.Log ("continue for loop");
 
 		}
 		if (starterCube2X == 8) {
@@ -238,7 +246,9 @@ public class NewBehaviourScript : MonoBehaviour {
 	} 
 
 	public void getScore() {
+		//sets the score for the round to newscore
 		newScore = 0;
+		//adds loot to score. 
 		lootScore = loot.Count;
 		score += lootScore;
 		loot.Clear();
@@ -257,11 +267,14 @@ public class NewBehaviourScript : MonoBehaviour {
 			
 	}
 		if (newScore >= 20) {
+			//combo bonus. Because the new score is always a multiple of ten there will be a combo bonus if it is above 19. 
 			newScore *= (newScore / 10);
 		}
+		//adds newscore to the score.
 		score += newScore; 
 }
 	public void fillNullSpots() {
+		//fills null spots.
 		while (!newBlocksSpawned) {
 			for (int x = 0; x < 9; x++) {
 				for (int y = 0; y < 6; y++)  {
