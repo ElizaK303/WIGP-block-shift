@@ -174,7 +174,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	public static void ProcessClick(GameObject clickedCube) {
 		//deletes cube if clicked 
 		if (clickedCube.activeSelf) { 
-			Destroy (clickedCube);
+			clickedCube.SetActive(false);
 		}
 	}
 	public void pushBlocks() {
@@ -192,18 +192,19 @@ public class NewBehaviourScript : MonoBehaviour {
 			if (y == 0) { 
 				//appends to grid array of loot so that the length can be counted. 	
 				loot.Add (gridColor);
-			} else if (grid [starterCube1X, y - 1] == null) {
-				while (grid [starterCube1X, y - 1] == null) {
-					cubePosition = new Vector3 (starterCube1X * 1.75f - 6f, (y - 1) * 1.75f - 5f, 0);
-					grid [starterCube1X, y - 1] = Instantiate (cube, cubePosition, Quaternion.identity);
+			} else if (!grid [starterCube1X, y - 1].activeSelf) {
+				//while (!grid [starterCube1X, y - 1].activeSelf) {
+					//cubePosition = new Vector3 (starterCube1X * 1.75f - 6f, (y - 1) * 1.75f - 5f, 0);
+					//grid [starterCube1X, y - 1] = Instantiate (cube, cubePosition, Quaternion.identity);
+					grid [starterCube1X, y -1 ].SetActive(true);
 					//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
 					grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
 					if (y == gridY - 1) {
 						grid [starterCube1X, y].SetActive (false);
 					} else {
-						Destroy (grid [starterCube1X, y]);
+						grid [starterCube1X, y].SetActive (false);
 					}
-				}
+				//}
 			
 			} else {
 				oldCubeColor = grid [starterCube1X, y - 1].GetComponent < Renderer> ().material.color;
@@ -221,18 +222,19 @@ public class NewBehaviourScript : MonoBehaviour {
 				}
 				if (x == 0) { 
 					loot.Add (gridColor);
-				} else if (grid [x, starterCube2Y]== null) {
-					while (grid [x, starterCube2Y] == null) {
-						cubePosition = new Vector3 (x * 1.75f - 6f, (starterCube2Y - 1) * 1.75f - 5f, 0);
-						grid [x, starterCube2Y] = Instantiate (cube, cubePosition, Quaternion.identity);
+				} else if (!grid [x, starterCube2Y].activeSelf) {
+					//while (!grid [x, starterCube2Y].activeSelf) {
+						//cubePosition = new Vector3 (x * 1.75f - 6f, (starterCube2Y - 1) * 1.75f - 5f, 0);
+						//grid [x, starterCube2Y] = Instantiate (cube, cubePosition, Quaternion.identity);
+						grid[x,starterCube2Y-1].SetActive(true);
 						//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
 						grid [x, starterCube2Y].GetComponent<Renderer> ().material.color = gridColor;
 						if (x == gridY - 1) {
 							grid [x, starterCube2Y].SetActive (false);
 						} else {
-							Destroy (grid [x, starterCube2Y]);
+							grid [x, starterCube2Y].SetActive (false);
 						}
-					}
+					//}
 
 					//Debug.Log ("break");
 					//end = true;
@@ -279,11 +281,12 @@ public class NewBehaviourScript : MonoBehaviour {
 	public void fillNullSpots() {
 		//fills null spots.
 		while (!newBlocksSpawned) {
-			for (int x = 0; x < 9; x++) {
-				for (int y = 0; y < 6; y++)  {
-					if (grid [x, y] == null) {
-						cubePosition = new Vector3 (x*1.75f-6f,y*1.75f-5f,0); 
-						grid [x, y] = Instantiate (cube, cubePosition, Quaternion.identity);
+			for (int x = 0; x < 8; x++) {
+				for (int y = 0; y < 5; y++)  {
+					if (!grid [x, y].activeSelf) {
+						//cubePosition = new Vector3 (x*1.75f-6f,y*1.75f-5f,0); 
+						//grid [x, y] = Instantiate (cube, cubePosition, Quaternion.identity);
+						grid[x,y].SetActive(true);
 					}
 				
 				}
