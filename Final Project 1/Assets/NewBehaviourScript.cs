@@ -182,7 +182,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		oldCubeColor = Color.blue;
 		bool end = false;
 		//moves pusher bocks.  
-		for (int y = gridY-1; y >= 0 && !end; y--) {
+		for (int y = gridY - 1; y >= 0 && !end; y--) {
 			if (y == gridY - 1) {
 				gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
 				grid [starterCube1X, y].SetActive (false);
@@ -194,16 +194,16 @@ public class NewBehaviourScript : MonoBehaviour {
 				loot.Add (gridColor);
 			} else if (!grid [starterCube1X, y - 1].activeSelf) {
 				//while (!grid [starterCube1X, y - 1].activeSelf) {
-					//cubePosition = new Vector3 (starterCube1X * 1.75f - 6f, (y - 1) * 1.75f - 5f, 0);
-					//grid [starterCube1X, y - 1] = Instantiate (cube, cubePosition, Quaternion.identity);
-					grid [starterCube1X, y -1 ].SetActive(true);
-					//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
-					grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
-					if (y == gridY - 1) {
-						grid [starterCube1X, y].SetActive (false);
-					} else {
-						grid [starterCube1X, y].SetActive (false);
-					}
+				//cubePosition = new Vector3 (starterCube1X * 1.75f - 6f, (y - 1) * 1.75f - 5f, 0);
+				//grid [starterCube1X, y - 1] = Instantiate (cube, cubePosition, Quaternion.identity);
+				grid [starterCube1X, y - 1].SetActive (true);
+				//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
+				grid [starterCube1X, y - 1].GetComponent<Renderer> ().material.color = gridColor;
+				if (y == gridY - 1) {
+					grid [starterCube1X, y].SetActive (false);
+				} else {
+					grid [starterCube1X, y].SetActive (false);
+				}
 				//}
 			
 			} else {
@@ -213,7 +213,7 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		}
 		if (starterCube2X == 8) {
-			for (int x = gridX-1; x >= 0 && !end; x--) {
+			for (int x = gridX - 1; x >= 0 && !end; x--) {
 				if (x == gridX - 1) {
 					gridColor = grid [x, starterCube2Y].GetComponent<Renderer> ().material.color;
 					grid [x, starterCube2Y].SetActive (false);
@@ -221,39 +221,29 @@ public class NewBehaviourScript : MonoBehaviour {
 					gridColor = oldCubeColor;
 				}
 				if (x == 0) { 
+					//appends to grid array of loot so that the length can be counted. 	
 					loot.Add (gridColor);
-				} else if (!grid [x, starterCube2Y].activeSelf) {
-					//while (!grid [x, starterCube2Y].activeSelf) {
-						//cubePosition = new Vector3 (x * 1.75f - 6f, (starterCube2Y - 1) * 1.75f - 5f, 0);
-						//grid [x, starterCube2Y] = Instantiate (cube, cubePosition, Quaternion.identity);
-						grid[x,starterCube2Y-1].SetActive(true);
-						//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
-						grid [x, starterCube2Y].GetComponent<Renderer> ().material.color = gridColor;
-						if (x == gridY - 1) {
-							grid [x, starterCube2Y].SetActive (false);
-						} else {
-							grid [x, starterCube2Y].SetActive (false);
-						}
-					//}
+				} else if (!grid [x - 1, starterCube2Y].activeSelf) {
+					//while (!grid [starterCube1X, y - 1].activeSelf) {
+					//cubePosition = new Vector3 (starterCube1X * 1.75f - 6f, (y - 1) * 1.75f - 5f, 0);
+					//grid [starterCube1X, y - 1] = Instantiate (cube, cubePosition, Quaternion.identity);
+					grid [x - 1, starterCube2Y].SetActive (true);
+					//gridColor = grid [starterCube1X, y].GetComponent<Renderer> ().material.color;
+					grid [x - 1, starterCube2Y].GetComponent<Renderer> ().material.color = gridColor;
 
-					//Debug.Log ("break");
-					//end = true;
+					grid [x, starterCube2Y].SetActive (false);
+
+
 				} else {
-					oldCubeColor = grid [x, starterCube2Y].GetComponent < Renderer> ().material.color;
-					grid [x, starterCube2Y].GetComponent<Renderer> ().material.color = gridColor;
+					oldCubeColor = grid [x, starterCube2Y - 1].GetComponent < Renderer> ().material.color;
+					grid [x, starterCube2Y - 1].GetComponent<Renderer> ().material.color = gridColor;
 				}
 
-
 			}
-
-
 		}
-	} 
-
+	}
 	public void getScore() {
-		//sets the score for the round to newscore
 		newScore = 0;
-		//adds loot to score. 
 		lootScore = loot.Count;
 		score += lootScore;
 		loot.Clear();
@@ -267,17 +257,15 @@ public class NewBehaviourScript : MonoBehaviour {
 					{
 						newScore += 10;
 					}
+				}
 			}
+
 		}
-			
-	}
 		if (newScore >= 20) {
-			//combo bonus. Because the new score is always a multiple of ten there will be a combo bonus if it is above 19. 
 			newScore *= (newScore / 10);
 		}
-		//adds newscore to the score.
 		score += newScore; 
-}
+	}
 	public void fillNullSpots() {
 		//fills null spots.
 		while (!newBlocksSpawned) {
