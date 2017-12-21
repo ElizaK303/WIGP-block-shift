@@ -7,11 +7,11 @@ public class Score : MonoBehaviour {
 	public Text text; 
 	// Use this for initialization
 	void Start () {
-		text.text = "Score = " + NewBehaviourScript.score.ToString(); 
+		text.text = "Score = " + NewBehaviourScript.instance.score.ToString(); 
 	}
 
 	// Update is called once per frame
 	void Update () {;
-		text.text = "Score = " + NewBehaviourScript.score.ToString() + " Loot = " + NewBehaviourScript.lootScore.ToString(); 
+		text.text = "Score = " + NewBehaviourScript.instance.score.ToString() + " Loot = " + NewBehaviourScript.instance.lootScore.ToString(); 
 	}
 }

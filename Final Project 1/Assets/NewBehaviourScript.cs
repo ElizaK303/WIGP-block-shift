@@ -17,9 +17,10 @@ public class NewBehaviourScript : MonoBehaviour {
 	public Text text1, text2;
 	Color cubeColor,leftCubeColor,rightCubeColor,upperCubeColor,lowerCubeColor,gridColor;
 	public static List<Color> loot;
-	public static int score,newScore,lootScore;
+	public int score,newScore,lootScore;
 	public bool over,newBlocksSpawned; 
-	public GameObject gameMusic; 
+	public Text text;
+	//public GameObject gameMusic; 
 	// Use this for initialization
 	void Start () {
 		over = false; 
@@ -38,6 +39,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		starterCube2Y = 3;
 		moveStarterCubesX = 0;
 		moveStarterCubesY = 0;
+		text.text = "Score = " + score.ToString(); 
 		Color[] colors = {Color.black, Color.blue, Color.green, Color.red, Color.yellow, Color.white};
 		//Instantiate (gameMusic, new Vector3 (0,0,0), Quaternion.identity);
 		//Sets 8*5 grid plus pusher cubes. 
@@ -95,6 +97,7 @@ public class NewBehaviourScript : MonoBehaviour {
 				ControlState.ChangePhases (Phase.End);
 				over = false;
 			}
+			text.text = "Score = " + score.ToString() + " Loot = " + lootScore.ToString(); 
 	}		
 
 	}

@@ -10,8 +10,8 @@ public class ScriptTimer : MonoBehaviour {
 	public Button phaseButton;
 	public Text Timer;
 	private float time = 4f;
-	public GameObject gameMusicAction; 
-	public GameObject gameMusic; 
+	//public GameObject gameMusicAction; 
+	//public GameObject gameMusic; 
 
 	//bool ActivateButton;
 
@@ -69,8 +69,8 @@ public class ScriptTimer : MonoBehaviour {
 			ControlState.ChangePhases (Phase.Action);
 		}
 		if (ControlState.CurrentPhase == Phase.End) { 
-			NewBehaviourScript.newScore = 0; 
-			NewBehaviourScript.score = 0; 
+			NewBehaviourScript.instance.newScore = 0; 
+			NewBehaviourScript.instance.score = 0; 
 			NewBehaviourScript.turn = 0;
 			//Destroy (NewBehaviourScript.instance.gameMusic);
 			//Instantiate (gameMusic, new Vector3 (0,0,0), Quaternion.identity);
